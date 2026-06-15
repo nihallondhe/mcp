@@ -1,0 +1,65 @@
+{
+  "mcpServers": {
+    "aws-mcp-server": {
+      "command": "fastmcp",
+      "args": [
+        "run",
+        "https://knowledge-mcp.global.api.aws"
+      ],
+      "env": {},
+      "autoApprove": [
+        "aws___read_documentation",
+        "aws___search_documentation"
+      ]
+    },
+    "kiro-context-locator": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-p",
+        "3000:3000",
+        "kiro-context-locator"
+      ]
+    },
+    "security-shield": {
+      "command": "python",
+      "args": [
+        "C:\\path\\to\\kiro\\shieldpcm.py"
+      ]
+    },
+    "token-compressor": {
+      "command": "python",
+      "args": [
+        "C:\\path\\to\\kiro\\.kiro\\token_compressor\\server.py"
+      ],
+      "disabled": false
+    },
+    "prompt-polisher": {
+      "command": "python",
+      "args": [
+        "C:\\path\\to\\kiro\\.kiro\\prompt_polisher\\server.py"
+      ],
+      "env": {
+        "GEMINI_API_KEY": "<your-gemini-api-key>"
+      },
+      "disabled": false
+    },
+    "solver-solemon-docker": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-v",
+        "C:/path/to/data:/app/data",
+        "solver-solemon:latest"
+      ],
+      "disabled": false
+    }
+  },
+  "powers": {
+    "mcpServers": {}
+  }
+}

@@ -1,0 +1,119 @@
+---
+inclusion: always
+---
+
+
+# AWS / DevOps Steering
+
+
+## Purpose
+
+
+This repository uses Kiro with built-in tools only. Do not assume MCP servers, extensions, or external Kiro powers are installed. Prefer native Kiro capabilities plus local repository context, shell commands, and existing project files.
+
+
+## Tooling rules
+
+
+- Use built-in Kiro tools only.
+- Do not suggest installing extensions, MCP servers, or extra agent integrations unless explicitly requested.
+- Prefer repository inspection before making assumptions.
+- Prefer local file edits over generating large speculative rewrites.
+- Prefer terminal-safe, copy-pasteable commands when suggesting shell steps.
+
+
+## Working style
+
+
+- Be concise, technical, and implementation-focused.
+- Give step-by-step guidance for setup, debugging, and remediation.
+- When diagnosing issues, start with the fastest verification steps.
+- For infrastructure or deployment problems, identify probable root causes, validation commands, and safe fixes.
+- Avoid vague advice; prefer explicit commands, file paths, and config examples.
+
+
+## AWS conventions
+
+
+- Prefer AWS CLI examples unless the user explicitly asks for console steps.
+- When showing commands, use placeholders like `<region>`, `<cluster>`, `<instance-id>`, `<profile>`.
+- Call out IAM permissions when a command may fail due to auth.
+- Mention cost or blast-radius risks before destructive actions.
+- For production-impacting actions, suggest a read-only verification step first.
+
+
+## Kubernetes conventions
+
+
+- Prefer `kubectl`-first troubleshooting.
+- Start with:
+  - `kubectl get pods -A`
+  - `kubectl describe pod <pod> -n <namespace>`
+  - `kubectl logs <pod> -n <namespace> --previous`
+  - `kubectl get events -A --sort-by=.lastTimestamp`
+- For EKS-related issues, separate Kubernetes-layer problems from AWS-layer problems.
+- When suggesting manifest changes, preserve existing labels, selectors, and resource names unless a rename is required.
+
+
+## Repository behavior
+
+
+- Check existing structure before creating files.
+- Follow patterns already present in the repo for:
+  - naming
+  - folder layout
+  - environment variable style
+  - YAML formatting
+  - Terraform or Helm conventions
+- If a standard is unclear, propose the smallest consistent change.
+
+
+## File editing rules
+
+
+- Make minimal, targeted changes.
+- Do not rewrite unrelated files.
+- Preserve comments unless they are outdated or incorrect.
+- When adding configuration, include only the necessary keys.
+- For secrets, use environment variables or placeholders; never hardcode credentials.
+
+
+## Debugging workflow
+
+
+When the user reports a failure:
+
+
+1. Restate the symptom in one line.
+2. List 2–4 likely causes.
+3. Give verification commands first.
+4. Then give the smallest safe fix.
+5. Mention how to confirm the fix worked.
+
+
+## Output preferences
+
+
+- Prefer markdown with short sections.
+- Use code blocks for commands and config.
+- Use tables only when comparing options.
+- For multi-step procedures, number the steps.
+- End with the next concrete action, not a generic closing line.
+
+
+## Safety rules
+
+
+- Do not recommend destructive commands without warning.
+- Flag commands such as delete, terminate, format, purge, force apply, or irreversible migration steps.
+- For Terraform, prefer `plan` before `apply`.
+- For Kubernetes, prefer inspecting live state before patching or deleting resources.
+- For AWS, prefer read-only commands before mutation.
+
+
+## When information is missing
+
+
+- Ask only the minimum clarifying questions needed to proceed.
+- If likely assumptions are acceptable, state them clearly and continue with a best-effort answer.
+- Do not block on unnecessary questions when a safe diagnostic path exists.

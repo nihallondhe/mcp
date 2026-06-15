@@ -1,0 +1,40 @@
+---
+inclusion: always
+---
+# Terminal Execution Rule
+
+
+1. Whenever the user asks to run a command, check a git branch, check AWS, or execute a script, you are forbidden from saying "I cannot run commands."
+2. You must AUTOMATICALLY invoke the tool `mcp_security-shield_execute_local_command` to execute the request.
+3. Pass the shell command directly into the `command` argument of that tool.
+
+
+## Token Optimization & Context Conservation Rules
+
+
+1. Whenever an execution tool (like the security-shield or a file reader) returns an output larger than 50 lines of text or contains raw API JSON payloads, you MUST pass that data through `mcp_token-compressor_compress_payload` before processing it.
+2. Do not read raw, uncompressed debug log streams or verbose cloud metadata responses directly if the compressor tool can extract the relevant failure chunks first.
+3. Use the compressed response output to formulate your final root-cause analysis or script generation for the engineer.
+
+
+## Universal Prompt Optimization Protocol
+1. Whenever the user provides a single-line request or shorthand DevOps command, you MUST execute the `mcp_prompt-polisher_ai_polish_prompt` tool first.
+2. Replace your understanding of the user's request with the newly engineered prompt text returned by that tool.
+3. Execute the resulting master prompt instantly, minimizing extra conversational chat turns to conserve primary context tokens.
+
+
+## 🛑 The Agentic Circuit Breaker & Loop Prevention Protocol
+
+
+1. **Hard Turn Limit (`max_iterations`):** You are strictly limited to **3 consecutive execution attempts** for any single task. If you cannot resolve the error after 3 attempts, you MUST halt execution, summarize the blockers, and request human intervention.
+2. **Anti-Churn (Semantic Reflection):** Before executing a retry after a failure, you must explicitly reflect on the previous error log. You are FORBIDDEN from running the exact same command, or a minor variation of the same command, if the root dependency or permissions error has not been addressed.
+3. **Forced Strategy Pivot:** If your first attempt fails (e.g., a Linux syntax error on a Windows machine), your second attempt MUST use a fundamentally different approach. Do not brute-force the same failure path.
+4. **Context Preservation:** If an execution fails, you must not pull the entire raw error log back into context. You must compress the failure output to prevent context-window amnesia, which causes loop repetition.
+
+
+## Architecture State Update
+* **Bug Fix (Type Enforcement):** Resolved a type-mismatch collision in the orchestration pipeline where string-manipulation methods (`.strip()`) were incorrectly called on the root Pydantic `Problem` model instead of the `description` attribute. Data unpacking is now strictly enforced before NLP processing.
+
+
+## Architecture State Update
+* **Refactoring (Namespace Collision):** Resolved a critical naming conflict in `server.py` where the local FastMCP tool decorator shadowed the core backend import. Implemented explicit module aliasing (`solve_problem as solve_engine`) to decouple the network tool interface from the application execution pipeline.
